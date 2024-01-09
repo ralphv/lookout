@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
+const logger_1 = require("./logger");
 class DockerHelper {
     runDockerComposePull(file, service) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -29,6 +30,7 @@ class DockerHelper {
     runCommand(cmd) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
+                logger_1.logger.debug(`running command: ${cmd}`);
                 const cmdParts = cmd.split(' ');
                 const child = utils_1.utils.spawn(cmdParts[0], cmdParts.slice(1));
                 child.stdout.pipe(process.stdout);
