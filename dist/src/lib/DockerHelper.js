@@ -34,7 +34,7 @@ class DockerHelper {
     runCommand(cmd, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                logger_1.logger.debug(`running command: ${cmd}`);
+                logger_1.logger.debug(`running command: '${cmd}' @ '${cwd}'`);
                 const cmdParts = cmd.split(' ');
                 const child = utils_1.utils.spawn(cmdParts[0], cmdParts.slice(1), {
                     cwd,

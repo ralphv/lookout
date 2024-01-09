@@ -15,7 +15,7 @@ export default class DockerHelper {
 
     private async runCommand(cmd: string, cwd: string): Promise<number> {
         return new Promise((resolve, reject) => {
-            logger.debug(`running command: ${cmd}`);
+            logger.debug(`running command: '${cmd}' @ '${cwd}'`);
             const cmdParts = cmd.split(' ');
             const child = utils.spawn(cmdParts[0], cmdParts.slice(1), {
                 cwd,
