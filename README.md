@@ -20,14 +20,14 @@ Lookout is intended to be used in a `docker-compose` setup.
         container_name: lookout
         restart: unless-stopped
         environment:
-          - LOOKOUT_DOCKER_COMPOSE=<full local path to docker compose>
+          - LOOKOUT_DOCKER_COMPOSE=<full local path to docker compose file>
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - ./lookout.config.yaml:/config/config.yaml
-          - <full local path to docker compose>:<full local path to docker compose>
+          - <full local directory to docker compose location>:<full local directory to docker compose location>
     ```
     
-    The `<full local path to docker compose>` **has to be the same on your host machine and your docker container.** 
+    The `<full local directory to docker compose location>` **has to be the same on your host machine and your docker container.** 
     
     This is because `docker-compose` identifies the files by their path, so when `docker-compose up` command is called, it will
     know to recreate the existing instance rather than try to create a new container. 
@@ -39,10 +39,10 @@ Lookout is intended to be used in a `docker-compose` setup.
         volumes:
           - /var/run/docker.sock:/var/run/docker.sock
           - ./lookout.config.yaml:/config/config.yaml
-          - /docker/home-lab-setup/docker-compose.yaml:/docker/home-lab-setup/docker-compose.yaml
+          - /docker/home-lab-setup:/docker/home-lab-setup
     ```
     
-    And you need to reflect the path correctly using the environment variable `LOOKOUT_DOCKER_COMPOSE` like this
+    And you need to reflect the path correctly, including the yaml file, using the environment variable `LOOKOUT_DOCKER_COMPOSE` like this
     
     ```yaml
         environment:
