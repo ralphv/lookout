@@ -29,7 +29,7 @@ export default class Slack {
                     },
                 },
             );
-            logger.debug(`Slack Response: ${JSON.stringify(response)}`);
+            logger.debug(`Slack Response: ${JSON.stringify(response.data)}`);
         } catch (error) {
             // we ignore slack errors
             logger.debug(`Slack Error`, error);
