@@ -35,7 +35,7 @@ class Slack {
                         'Content-Type': 'application/json',
                     },
                 });
-                logger_1.logger.debug(`Slack Response: ${JSON.stringify(response)}`);
+                logger_1.logger.debug(`Slack Response: ${JSON.stringify(response.data)}`);
             }
             catch (error) {
                 // we ignore slack errors

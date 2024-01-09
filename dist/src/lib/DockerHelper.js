@@ -8,31 +8,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 const logger_1 = require("./logger");
+const path_1 = __importDefault(require("path"));
 class DockerHelper {
     runDockerComposePull(file, service) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} pull ${service}`);
+            return this.runCommand(`docker-compose -f ${file} pull ${service}`, path_1.default.dirname(file));
         });
     }
     runDockerComposeBuild(file, service) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} build ${service}`);
+            return this.runCommand(`docker-compose -f ${file} build ${service}`, path_1.default.dirname(file));
         });
     }
     runDockerComposeUp(file, service) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} up -d ${service}`);
+            return this.runCommand(`docker-compose -f ${file} up -d ${service}`, path_1.default.dirname(file));
         });
     }
-    runCommand(cmd) {
+    runCommand(cmd, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                logger_1.logger.debug(`running command: ${cmd}`);
+                logger_1.logger.debug(`running command: '${cmd}' @ '${cwd}'`);
                 const cmdParts = cmd.split(' ');
-                const child = utils_1.utils.spawn(cmdParts[0], cmdParts.slice(1));
+                const child = utils_1.utils.spawn(cmdParts[0], cmdParts.slice(1), {
+                    cwd,
+                });
                 child.stdout.pipe(process.stdout);
                 child.stderr.pipe(process.stderr);
                 child.on('close', (code) => {
