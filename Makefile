@@ -28,7 +28,7 @@ run:
 	docker-compose up lookout --build
 
 .PHONE: buildx-image
-build-image:
+buildx-image:
 	make build
 	docker buildx stop localremote_builder
 	docker buildx rm localremote_builder
@@ -41,8 +41,8 @@ build-image:
 .PHONE: build-image
 build-image:
 	make build
-	docker build --tag dckr.cc/lookout:latest -f ./docker/Dockerfile .
-	docker tag dckr.cc/lookout:latest dckr.cc/lookout:$(shell jq -r .version < package.json)
-	docker push dckr.cc/lookout:latest
-	docker push dckr.cc/lookout:$(shell jq -r .version < package.json)
+	docker build --tag ralphv/lookout:latest -f ./docker/Dockerfile .
+	docker tag ralphv/lookout:latest ralphv/lookout:$(shell jq -r .version < package.json)
+	docker push ralphv/lookout:latest
+	docker push ralphv/lookout:$(shell jq -r .version < package.json)
 
