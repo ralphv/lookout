@@ -1,6 +1,6 @@
 .PHONE: build
 build:
-	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker
+	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker --remove-orphans
 	#docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm install -g npm@latest
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm install
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm run build
@@ -8,7 +8,7 @@ build:
 
 .PHONE: update-npm-libraries
 update-npm-libraries:
-	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker
+	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker --remove-orphans
 	#docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm install -g npm@latest
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npx --yes npm-check-updates -u
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm run build
@@ -16,7 +16,7 @@ update-npm-libraries:
 
 .PHONE: test
 test:
-	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker
+	docker compose -f node-in-docker.docker-compose.yaml up -d node-in-docker --remove-orphans
 	#docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm install -g npm@latest
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm install
 	docker compose -f node-in-docker.docker-compose.yaml exec -it node-in-docker npm run test

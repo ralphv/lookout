@@ -28,10 +28,10 @@ class Config {
         return this.getEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_CRON`, '0 */6 * * *');
     }
     isSendSlackMessages() {
-        return this.getBoolEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_SEND_SLACK_MESSAGES`, true);
+        return this.getBoolEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_SEND_SLACK_MESSAGES`, false);
     }
     getSlackURL() {
-        return this.getEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_SLACK_WEBHOOK`, 'https://hooks.slack.com/services/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');
+        return this.getEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_SLACK_WEBHOOK`, '');
     }
     scheduleCron() {
         return true;

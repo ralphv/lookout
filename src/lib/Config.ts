@@ -34,10 +34,7 @@ export default class Config {
     }
 
     getSlackURL(): string {
-        return this.getEnvVariable(
-            `${ENV_VARIABLE_PREFIX}_SLACK_WEBHOOK`,
-            '',
-        );
+        return this.getEnvVariable(`${ENV_VARIABLE_PREFIX}_SLACK_WEBHOOK`, '');
     }
 
     scheduleCron(): boolean {

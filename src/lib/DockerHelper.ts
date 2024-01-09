@@ -1,5 +1,5 @@
 import { utils } from './utils';
-import {logger} from "./logger";
+import { logger } from './logger';
 
 export default class DockerHelper {
     async runDockerComposePull(file: string, service: string): Promise<number> {
