@@ -1,4 +1,5 @@
 import { utils } from './utils';
+import {logger} from "./logger";
 
 export default class DockerHelper {
     async runDockerComposePull(file: string, service: string): Promise<number> {
@@ -13,6 +14,7 @@ export default class DockerHelper {
 
     private async runCommand(cmd: string): Promise<number> {
         return new Promise((resolve, reject) => {
+            logger.debug(`running command: ${cmd}`);
             const cmdParts = cmd.split(' ');
             const child = utils.spawn(cmdParts[0], cmdParts.slice(1));
             child.stdout.pipe(process.stdout);
