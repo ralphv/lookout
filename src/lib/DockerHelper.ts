@@ -1,22 +1,25 @@
 import { utils } from './utils';
 import { logger } from './logger';
+import path from 'path';
 
 export default class DockerHelper {
     async runDockerComposePull(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} pull ${service}`);
+        return this.runCommand(`docker-compose -f ${file} pull ${service}`, path.dirname(file));
     }
     async runDockerComposeBuild(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} build ${service}`);
+        return this.runCommand(`docker-compose -f ${file} build ${service}`, path.dirname(file));
     }
     async runDockerComposeUp(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} up -d ${service}`);
+        return this.runCommand(`docker-compose -f ${file} up -d ${service}`, path.dirname(file));
     }
 
-    private async runCommand(cmd: string): Promise<number> {
+    private async runCommand(cmd: string, cwd: string): Promise<number> {
         return new Promise((resolve, reject) => {
             logger.debug(`running command: ${cmd}`);
             const cmdParts = cmd.split(' ');
-            const child = utils.spawn(cmdParts[0], cmdParts.slice(1));
+            const child = utils.spawn(cmdParts[0], cmdParts.slice(1), {
+                cwd,
+            });
             child.stdout.pipe(process.stdout);
             child.stderr.pipe(process.stderr);
             child.on('close', (code) => {
