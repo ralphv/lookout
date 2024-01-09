@@ -28,7 +28,7 @@ run:
 	docker-compose up lookout --build
 
 .PHONE: buildx-image
-build-image:
+buildx-image:
 	make build
 	docker buildx stop localremote_builder
 	docker buildx rm localremote_builder
