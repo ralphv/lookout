@@ -1,0 +1,12 @@
+version: '3.4'
+services:
+  node-in-docker:
+    build:
+      context: .
+      dockerfile: node-in-docker.Dockerfile
+    working_dir: /app
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - .:/app

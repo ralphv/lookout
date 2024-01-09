@@ -1,0 +1,19 @@
+version: '1.0'
+services:
+  simple-node-express:
+    images:
+      - node
+      - netdata/netdata:edge
+      - plexinc/pms-docker:latest
+      - crazymax/ddns-route53:latest
+      - linuxserver/overseerr
+      #- ghcr.io/tautulli/tautulli # failing with GitHub
+      - registry:latest
+      - dckr.cc/aprs:latest
+      - mongo-express
+      - docker.n8n.io/n8nio/n8n
+      - ghostfolio/ghostfolio:latest
+      - postgres:15
+      - lissy93/dashy:latest
+      - containrrr/watchtower
+

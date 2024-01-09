@@ -1,0 +1,50 @@
+{
+  "name": "lookout",
+  "version": "0.5.0",
+  "description": "Automatically watch images for their latest version and run custom commands to update it",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "npx eslint ./src/**/*.ts --fix",
+    "prettier:fix": "prettier --write 'src/**/*.ts' 'tests/**/*.ts'",
+    "build": "npm run compile && npm run lint && npm run prettier:fix",
+    "compile": "rimraf dist && tsc --project tsconfig.build.json && find ./dist -type f -name '*.ts' -delete && find ./dist -type f -name '*.map' -delete && rm -rf .nyc_output",
+    "test": "npx nyc mocha --exclude tests/**/*.d.ts",
+    "prettier": "prettier 'src/**/*.ts' 'tests/**/*.ts'"
+  },
+  "keywords": [
+    "docker",
+    "container",
+    "updates",
+    "auto"
+  ],
+  "author": "Ralph Varjabedian",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.5",
+    "js-yaml": "^4.1.0",
+    "json-schema-library": "^9.1.2",
+    "log4js": "^6.9.1",
+    "node-cron": "^3.0.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.10",
+    "@types/js-yaml": "^4.0.9",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.7",
+    "@types/node-cron": "^3.0.11",
+    "@typescript-eslint/eslint-plugin": "^6.18.0",
+    "@typescript-eslint/parser": "^6.18.0",
+    "chai": "^4.3.10",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.2",
+    "lint": "^1.1.2",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "prettier": "^3.1.1",
+    "rimraf": "^5.0.5",
+    "ts-mockito": "^2.6.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

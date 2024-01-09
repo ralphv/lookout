@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "lookout.config/v1.json",
+  "title": "lookout config v1",
+  "type": "object",
+  "properties": {
+    "version": {
+      "title": "schema version",
+      "type": "string",
+      "enum": ["1.0"]
+    },
+    "services": {
+      "title": "services list",
+      "type": "object",
+      "$ref": "#/definitions/services",
+      "minLength": 1
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "services"
+  ],
+  "definitions": {
+    "services": {
+      "title": "services",
+      "type": "object",
+      "additionalProperties": {
+          "type": "object",
+          "$ref": "#/definitions/services.properties"
+      }
+    },
+    "services.properties": {
+      "type": "object",
+      "properties": {
+        "images": {
+          "title": "Images list",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "commands": {
+          "title": "The optional custom commands list",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "push": {
+          "title": "The optional custom push images list",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": ["images"]
+    }
+  }
+}

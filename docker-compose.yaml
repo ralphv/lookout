@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  lookout:
+    container_name: lookout
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - LOOKOUT_LOG_LEVEL=debug
+      - LOOKOUT_DOCKER_COMPOSE=/home/ralph/Coding/lookout/docker-compose.yaml
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./sample-run/config.yaml:/config/config.yaml
+      #- ./sample-run:/data
+      - /home/ralph/Coding/lookout/docker-compose.yaml:/home/ralph/Coding/lookout/docker-compose.yaml
+
+  simple-node-express:
+    container_name: simple-node-express
+    image: ralphv/simple-node-express
+    environment:
+      - SERVICE_NAME=INSTANCE 1
+    ports:
+      - "8080:8080"
