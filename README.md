@@ -2,7 +2,7 @@
 
 A docker image, similar to [watchtower](https://github.com/containrrr/watchtower), 
 but uses `docker-compose` commands to rebuild images and recreating. 
-It's intended to be used for services that have a build context rather than an image. For images, use `watchetower` as it is the best really. 
+It's intended to be used for services that have a build context rather than an image. For images, use [watchtower](https://github.com/containrrr/watchtower) as it is the best really. 
 
 Lookout is intended to be used in non production environments.
 
