@@ -43,6 +43,11 @@ build-image:
 	make build
 	docker build --tag ralphv/lookout:latest -f ./docker/Dockerfile .
 	docker tag ralphv/lookout:latest ralphv/lookout:$(shell jq -r .version < package.json)
+
+.PHONE: publish-image
+publish-image:
+	make build
+	docker build --tag ralphv/lookout:latest -f ./docker/Dockerfile .
+	docker tag ralphv/lookout:latest ralphv/lookout:$(shell jq -r .version < package.json)
 	docker push ralphv/lookout:latest
 	docker push ralphv/lookout:$(shell jq -r .version < package.json)
-

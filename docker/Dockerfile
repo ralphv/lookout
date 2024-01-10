@@ -1,8 +1,8 @@
 ARG UID=1000
 ARG GID=1000
-FROM docker/compose:alpine-1.29.2 as COMPOSE
+FROM docker/compose:alpine as COMPOSE
 
-FROM node:20.5.1-alpine
+FROM node:21-alpine
 ARG UID
 ARG GID
 
@@ -10,6 +10,7 @@ LABEL org.opencontainers.image.authors="Ralph Varjabedian"
 LABEL author="Ralph Varjabedian"
 LABEL git="https://github.com/ralphv/lookout"
 
+RUN apk update && apk upgrade
 RUN apk add docker
 COPY --from=COMPOSE /usr/local/bin/docker-compose /usr/local/bin/docker-compose
 
