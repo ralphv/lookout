@@ -63,8 +63,8 @@
         "type": "string",
         "minLength": 1
       },
-      "docker-compose": {
-        "title": "The docker compose file location override",
+      "cwd": {
+        "title": "The working directory override",
         "type": "string",
         "minLength": 1
       },

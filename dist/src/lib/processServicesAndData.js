@@ -16,9 +16,10 @@ function processServicesAndData(dependencies, services, data, previousData) {
         const { config, dockerHelper, slack } = dependencies;
         const servicesToProcess = [];
         logger_1.logger.info(`**************************************`);
-        for (const service of Object.keys(services)) {
-            logger_1.logger.info(`Detecting changes for service: '${service}'`);
-            for (const image of services[service].images) {
+        for (const serviceName of Object.keys(services)) {
+            logger_1.logger.info(`Detecting changes for service: '${serviceName}'`);
+            const serviceYaml = services[serviceName];
+            for (const image of serviceYaml.images) {
                 const previousDigest = previousData[image];
                 const currentDigest = data[image];
                 if (previousDigest === currentDigest) {
@@ -26,7 +27,7 @@ function processServicesAndData(dependencies, services, data, previousData) {
                     continue;
                 }
                 logger_1.logger.info(` >> image: ${image} [CHANGED]`);
-                servicesToProcess.push(service);
+                servicesToProcess.push(serviceName);
             }
         }
         if (servicesToProcess.length === 0) {
@@ -35,15 +36,16 @@ function processServicesAndData(dependencies, services, data, previousData) {
         }
         logger_1.logger.info(`**************************************`);
         logger_1.logger.info(`Updates are required for ${servicesToProcess.length} service(s)`);
-        for (const service of servicesToProcess) {
-            logger_1.logger.info(`Updating service ${service}`);
-            slack.sendSlackMessage(`Updating service ${service}`);
+        for (const serviceName of servicesToProcess) {
+            logger_1.logger.info(`Updating service ${serviceName}`);
+            slack.sendSlackMessage(`Updating service ${serviceName}`);
+            const serviceYaml = services[serviceName];
             //todo check if we have custom set of commands then use those
-            yield dockerHelper.runDockerComposePull(config.getDockerComposeFile(), service);
-            yield dockerHelper.runDockerComposeBuild(config.getDockerComposeFile(), service);
-            yield dockerHelper.runDockerComposeUp(config.getDockerComposeFile(), service);
+            yield dockerHelper.runDockerComposePull(serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(), serviceName, serviceYaml.cwd);
+            yield dockerHelper.runDockerComposeBuild(serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(), serviceName, serviceYaml.cwd);
+            yield dockerHelper.runDockerComposeUp(serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(), serviceName, serviceYaml.cwd);
             // todo check if we have to push to remote registry commands
-            logger_1.logger.info(`Done updating service ${service}`);
+            logger_1.logger.info(`Done updating service ${serviceName}`);
         }
         return true;
     });
