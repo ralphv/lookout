@@ -58,6 +58,16 @@
           }
         }
       },
+      "docker-compose": {
+        "title": "The docker compose file location override",
+        "type": "string",
+        "minLength": 1
+      },
+      "docker-compose": {
+        "title": "The docker compose file location override",
+        "type": "string",
+        "minLength": 1
+      },
       "additionalProperties": false,
       "required": ["images"]
     }

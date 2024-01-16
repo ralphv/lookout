@@ -1,6 +1,6 @@
 ARG UID=1000
 ARG GID=1000
-FROM docker/compose:alpine as COMPOSE
+FROM docker/compose:alpine-1.29.2 as COMPOSE
 
 FROM node:21-alpine
 ARG UID

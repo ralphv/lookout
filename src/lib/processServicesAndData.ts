@@ -13,10 +13,11 @@ export async function processServicesAndData(
     const servicesToProcess = [];
 
     logger.info(`**************************************`);
-    for (const service of Object.keys(services)) {
-        logger.info(`Detecting changes for service: '${service}'`);
+    for (const serviceName of Object.keys(services)) {
+        logger.info(`Detecting changes for service: '${serviceName}'`);
+        const serviceYaml = services[serviceName];
 
-        for (const image of services[service].images) {
+        for (const image of serviceYaml.images) {
             const previousDigest = previousData[image];
             const currentDigest = data[image];
 
@@ -26,7 +27,7 @@ export async function processServicesAndData(
             }
 
             logger.info(` >> image: ${image} [CHANGED]`);
-            servicesToProcess.push(service);
+            servicesToProcess.push(serviceName);
         }
     }
 
@@ -38,17 +39,26 @@ export async function processServicesAndData(
 
     logger.info(`Updates are required for ${servicesToProcess.length} service(s)`);
 
-    for (const service of servicesToProcess) {
-        logger.info(`Updating service ${service}`);
-        slack.sendSlackMessage(`Updating service ${service}`);
+    for (const serviceName of servicesToProcess) {
+        logger.info(`Updating service ${serviceName}`);
+        slack.sendSlackMessage(`Updating service ${serviceName}`);
+        const serviceYaml = services[serviceName];
 
         //todo check if we have custom set of commands then use those
-        await dockerHelper.runDockerComposePull(config.getDockerComposeFile(), service);
-        await dockerHelper.runDockerComposeBuild(config.getDockerComposeFile(), service);
-        await dockerHelper.runDockerComposeUp(config.getDockerComposeFile(), service);
+        await dockerHelper.runDockerComposePull(
+            serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
+            serviceName,
+            serviceYaml.cwd);
+        await dockerHelper.runDockerComposeBuild(
+            serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
+            serviceName,
+            serviceYaml.cwd);
+        await dockerHelper.runDockerComposeUp(
+            serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
+            serviceName,
+            serviceYaml.cwd);
         // todo check if we have to push to remote registry commands
-
-        logger.info(`Done updating service ${service}`);
+        logger.info(`Done updating service ${serviceName}`);
     }
 
     return true;
