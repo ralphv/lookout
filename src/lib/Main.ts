@@ -10,7 +10,7 @@ import { Dependencies } from './Dependencies';
 import { RegistryInformation } from './Registry';
 import LookoutError from './LookoutError';
 import { ScheduledTask } from 'node-cron';
-import { utils } from './utils';
+import { processKeys, utils } from './utils';
 
 export default class Main {
     private task: ScheduledTask | null = null;
@@ -35,8 +35,8 @@ export default class Main {
         if (yamlConfigs.length !== 1) {
             throw new Error('Single yaml object should exist');
         }
-
         const yamlConfig = yamlConfigs[0];
+        processKeys(yamlConfig);
 
         // validate schema
         const jsonSchema: Draft07 = new Draft07(schemaV1);

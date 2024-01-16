@@ -6,4 +6,6 @@ export interface YamlConfiguration {
 export interface YamlConfigurationService {
     images: string[];
     commands?: string[];
+    dockerCompose?: string;
+    cwd?: string;
 }

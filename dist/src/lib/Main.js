@@ -42,6 +42,7 @@ class Main {
                 throw new Error('Single yaml object should exist');
             }
             const yamlConfig = yamlConfigs[0];
+            (0, utils_1.processKeys)(yamlConfig);
             // validate schema
             const jsonSchema = new json_schema_library_1.Draft07(v1_json_1.default);
             const errors = jsonSchema.validate(yamlConfig);

@@ -3,14 +3,14 @@ import { logger } from './logger';
 import path from 'path';
 
 export default class DockerHelper {
-    async runDockerComposePull(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} pull ${service}`, path.dirname(file));
+    async runDockerComposePull(file: string, service: string, cwd?: string): Promise<number> {
+        return this.runCommand(`docker-compose -f ${file} pull ${service}`, cwd ? cwd : path.dirname(file));
     }
-    async runDockerComposeBuild(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} build ${service}`, path.dirname(file));
+    async runDockerComposeBuild(file: string, service: string, cwd?: string): Promise<number> {
+        return this.runCommand(`docker-compose -f ${file} build ${service}`, cwd ? cwd : path.dirname(file));
     }
-    async runDockerComposeUp(file: string, service: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} up -d ${service}`, path.dirname(file));
+    async runDockerComposeUp(file: string, service: string, cwd?: string): Promise<number> {
+        return this.runCommand(`docker-compose -f ${file} up -d ${service}`, cwd ? cwd : path.dirname(file));
     }
 
     private async runCommand(cmd: string, cwd: string): Promise<number> {
