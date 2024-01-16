@@ -1,6 +1,6 @@
 {
     "name": "lookout",
-    "version": "0.5.2",
+    "version": "0.5.3",
     "description": "Automatically watch images for their latest version and run custom commands to update it",
     "main": "dist/index.js",
     "scripts": {
