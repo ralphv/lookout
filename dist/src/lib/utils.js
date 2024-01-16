@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.utils = void 0;
+exports.processKeys = exports.utils = void 0;
 const child_process = __importStar(require("child_process"));
 const cron = __importStar(require("node-cron"));
 // for easier testing
@@ -31,3 +31,23 @@ exports.utils = {
     spawn: child_process.spawn,
     schedule: cron.schedule,
 };
+function processKeys(obj) {
+    if (typeof obj !== 'object' || obj === null) {
+        return;
+    }
+    Object.keys(obj).forEach((key) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        processKeys(obj[key]);
+        if (key === key.toLowerCase() && key.includes('-')) {
+            const camelCaseKey = toCamelCase(key);
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            obj[camelCaseKey] = obj[key];
+        }
+    });
+}
+exports.processKeys = processKeys;
+function toCamelCase(str) {
+    return str.replace(/-([a-z])/g, function (g) {
+        return g[1].toUpperCase();
+    });
+}
