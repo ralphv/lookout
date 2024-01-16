@@ -16,19 +16,19 @@ const utils_1 = require("./utils");
 const logger_1 = require("./logger");
 const path_1 = __importDefault(require("path"));
 class DockerHelper {
-    runDockerComposePull(file, service) {
+    runDockerComposePull(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} pull ${service}`, path_1.default.dirname(file));
+            return this.runCommand(`docker-compose -f ${file} pull ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
-    runDockerComposeBuild(file, service) {
+    runDockerComposeBuild(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} build ${service}`, path_1.default.dirname(file));
+            return this.runCommand(`docker-compose -f ${file} build ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
-    runDockerComposeUp(file, service) {
+    runDockerComposeUp(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} up -d ${service}`, path_1.default.dirname(file));
+            return this.runCommand(`docker-compose -f ${file} up -d ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runCommand(cmd, cwd) {

@@ -48,15 +48,18 @@ export async function processServicesAndData(
         await dockerHelper.runDockerComposePull(
             serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
             serviceName,
-            serviceYaml.cwd);
+            serviceYaml.cwd,
+        );
         await dockerHelper.runDockerComposeBuild(
             serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
             serviceName,
-            serviceYaml.cwd);
+            serviceYaml.cwd,
+        );
         await dockerHelper.runDockerComposeUp(
             serviceYaml.dockerCompose ? serviceYaml.dockerCompose : config.getDockerComposeFile(),
             serviceName,
-            serviceYaml.cwd);
+            serviceYaml.cwd,
+        );
         // todo check if we have to push to remote registry commands
         logger.info(`Done updating service ${serviceName}`);
     }
