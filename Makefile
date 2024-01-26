@@ -48,3 +48,7 @@ build-image:
 publish-image:
 	docker push ralphv/lookout:latest
 	docker push ralphv/lookout:$(shell jq -r .version < package.json)
+
+.PHONE: trivy
+trivy:
+	docker run --rm -v .:/app/ aquasec/trivy fs /app/ --scanners vuln

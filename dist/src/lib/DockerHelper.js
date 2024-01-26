@@ -15,20 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 const logger_1 = require("./logger");
 const path_1 = __importDefault(require("path"));
+const Config_1 = __importDefault(require("./Config"));
 class DockerHelper {
     runDockerComposePull(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} pull ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} -f ${file} pull ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runDockerComposeBuild(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} build ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} -f ${file} build ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runDockerComposeUp(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} up -d ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} -f ${file} up -d ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runCommand(cmd, cwd) {
@@ -51,6 +52,10 @@ class DockerHelper {
                 });
             });
         });
+    }
+    getDockerComposeCommand() {
+        const config = new Config_1.default();
+        return config.useDockerComposeV2() ? 'docker compose' : 'docker-compose';
     }
 }
 exports.default = DockerHelper;

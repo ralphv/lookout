@@ -1,16 +1,26 @@
 import { utils } from './utils';
 import { logger } from './logger';
 import path from 'path';
+import Config from './Config';
 
 export default class DockerHelper {
     async runDockerComposePull(file: string, service: string, cwd?: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} pull ${service}`, cwd ? cwd : path.dirname(file));
+        return this.runCommand(
+            `${this.getDockerComposeCommand()} -f ${file} pull ${service}`,
+            cwd ? cwd : path.dirname(file),
+        );
     }
     async runDockerComposeBuild(file: string, service: string, cwd?: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} build ${service}`, cwd ? cwd : path.dirname(file));
+        return this.runCommand(
+            `${this.getDockerComposeCommand()} -f ${file} build ${service}`,
+            cwd ? cwd : path.dirname(file),
+        );
     }
     async runDockerComposeUp(file: string, service: string, cwd?: string): Promise<number> {
-        return this.runCommand(`docker-compose -f ${file} up -d ${service}`, cwd ? cwd : path.dirname(file));
+        return this.runCommand(
+            `${this.getDockerComposeCommand()} -f ${file} up -d ${service}`,
+            cwd ? cwd : path.dirname(file),
+        );
     }
 
     private async runCommand(cmd: string, cwd: string): Promise<number> {
@@ -30,5 +40,10 @@ export default class DockerHelper {
                 }
             });
         });
+    }
+
+    private getDockerComposeCommand() {
+        const config = new Config();
+        return config.useDockerComposeV2() ? 'docker compose' : 'docker-compose';
     }
 }

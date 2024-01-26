@@ -38,6 +38,13 @@ export default class Config {
     }
 
     scheduleCron(): boolean {
-        return true;
+        return (
+            this.getBoolEnvVariable(`${ENV_VARIABLE_PREFIX}_ENABLE_CRON`, true) &&
+            !process.argv.slice(2).includes('--single-run')
+        );
+    }
+
+    useDockerComposeV2() {
+        return this.getBoolEnvVariable(`${ENV_VARIABLE_PREFIX}_DOCKER_COMPOSE_V2`, true);
     }
 }
