@@ -3,7 +3,7 @@ import * as cron from 'node-cron';
 
 // for easier testing
 export const utils = {
-    spawn: child_process.spawn,
+    exec: child_process.exec,
     schedule: cron.schedule,
 };
 
