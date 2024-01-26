@@ -1,6 +1,6 @@
 ARG UID=1000
 ARG GID=1000
-FROM node:20.5.1-alpine
+FROM node:latest-alpine
 ARG UID
 ARG GID
 RUN deluser node

@@ -7,7 +7,7 @@ describe('docker helper', () => {
     it('docker compose', async () => {
         const spied = spy(utils);
         let methodAttached: any = null;
-        when(spied.spawn(anything(), anything())).thenCall(
+        when(spied.exec(anything(), anything())).thenCall(
             () =>
                 ({
                     stdout: {
@@ -32,7 +32,7 @@ describe('docker helper', () => {
     it('docker pull', async () => {
         const spied = spy(utils);
         let methodAttached: any = null;
-        when(spied.spawn(anything(), anything())).thenCall(
+        when(spied.exec(anything(), anything())).thenCall(
             () =>
                 ({
                     stdout: {
@@ -57,7 +57,7 @@ describe('docker helper', () => {
     it('docker build', async () => {
         const spied = spy(utils);
         let methodAttached: any = null;
-        when(spied.spawn(anything(), anything())).thenCall(
+        when(spied.exec(anything(), anything())).thenCall(
             () =>
                 ({
                     stdout: {
@@ -82,7 +82,7 @@ describe('docker helper', () => {
     it('docker compose failing', async () => {
         const spied = spy(utils);
         let methodAttached: any = null;
-        when(spied.spawn(anything(), anything())).thenCall(
+        when(spied.exec(anything(), anything())).thenCall(
             () =>
                 ({
                     stdout: {

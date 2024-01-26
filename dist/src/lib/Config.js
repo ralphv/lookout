@@ -34,7 +34,11 @@ class Config {
         return this.getEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_SLACK_WEBHOOK`, '');
     }
     scheduleCron() {
-        return true;
+        return (this.getBoolEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_ENABLE_CRON`, true) &&
+            !process.argv.slice(2).includes('--single-run'));
+    }
+    useDockerComposeV2() {
+        return this.getBoolEnvVariable(`${exports.ENV_VARIABLE_PREFIX}_DOCKER_COMPOSE_V2`, true);
     }
 }
 exports.default = Config;

@@ -15,42 +15,51 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("./utils");
 const logger_1 = require("./logger");
 const path_1 = __importDefault(require("path"));
+const Config_1 = __importDefault(require("./Config"));
 class DockerHelper {
     runDockerComposePull(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} pull ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} --file ${file} pull ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runDockerComposeBuild(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} build ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} --file ${file} build ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runDockerComposeUp(file, service, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.runCommand(`docker-compose -f ${file} up -d ${service}`, cwd ? cwd : path_1.default.dirname(file));
+            return this.runCommand(`${this.getDockerComposeCommand()} --file ${file} up -d ${service}`, cwd ? cwd : path_1.default.dirname(file));
         });
     }
     runCommand(cmd, cwd) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
                 logger_1.logger.debug(`running command: '${cmd}' @ '${cwd}'`);
-                const cmdParts = cmd.split(' ');
-                const child = utils_1.utils.spawn(cmdParts[0], cmdParts.slice(1), {
+                const child = utils_1.utils.exec(cmd, {
                     cwd,
-                });
-                child.stdout.pipe(process.stdout);
-                child.stderr.pipe(process.stderr);
-                child.on('close', (code) => {
-                    if (code !== 0) {
-                        reject(code);
+                }, (err) => {
+                    if (err) {
+                        reject(err);
                     }
                     else {
-                        resolve(0);
+                        resolve(null);
                     }
                 });
+                if (child.stdout) {
+                    child.stdout.pipe(process.stdout);
+                }
+                if (child.stderr) {
+                    child.stderr.pipe(process.stderr);
+                }
+                //child.on('close', (code) => {
+                //});
             });
         });
+    }
+    getDockerComposeCommand() {
+        const config = new Config_1.default();
+        return config.useDockerComposeV2() ? 'docker compose' : 'docker-compose';
     }
 }
 exports.default = DockerHelper;
