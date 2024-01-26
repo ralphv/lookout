@@ -28,7 +28,7 @@ const child_process = __importStar(require("child_process"));
 const cron = __importStar(require("node-cron"));
 // for easier testing
 exports.utils = {
-    spawn: child_process.spawn,
+    exec: child_process.exec,
     schedule: cron.schedule,
 };
 function processKeys(obj) {
